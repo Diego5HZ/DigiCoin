@@ -49,6 +49,7 @@ module.exports = app => {
         const{ origen,destino,cantidad} = req.body;
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
+            cantidadDeDinero -= cantidad;
             let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
