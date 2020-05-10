@@ -12,14 +12,14 @@
     },
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/MarcoAlejandro3112/Criptomoneda.git"
+      "url": "git+https://github.com/Diego5HZ/DigiCoin.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/MarcoAlejandro3112/Criptomoneda/issues"
+      "url": "https://github.com/Diego5HZ/DigiCoin.git/issues"
     },
-    "homepage": "https://github.com/MarcoAlejandro3112/Criptomoneda#readme",
+    "homepage": "https://github.com/Diego5HZ/DigiCoin.git#readme",
     "keywords": [],
     "dependencies": {
       "DOM": "0.0.3",
