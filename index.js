@@ -1,7 +1,7 @@
 const app = require('./config/server');
 require('./app/routes/bloque')(app);
 
-app.listen(app.get('port'),() => {
+app.listen(app.get('port'),function() {
 	console.log("El servidor está en: ", app.get('port'));
 });
 
