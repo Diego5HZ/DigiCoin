@@ -1,5 +1,5 @@
 {
-    "name": "digicoin",
+    "name": "criptomoneda",
     "version": "1.0.0",
     "description": "Project",
     "main": "index.html",
@@ -12,14 +12,14 @@
     },
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/Diego5HZ/DigiCoin.git"
+      "url": "git+https://github.com/MarcoAlejandro3112/Criptomoneda.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/Diego5HZ/DigiCoin.git/issues"
+      "url": "https://github.com/MarcoAlejandro3112/Criptomoneda/issues"
     },
-    "homepage": "https://github.com/Diego5HZ/DigiCoin.git#readme",
+    "homepage": "https://github.com/MarcoAlejandro3112/Criptomoneda#readme",
     "keywords": [],
     "dependencies": {
       "DOM": "0.0.3",
