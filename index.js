@@ -2,7 +2,7 @@ const app = require('./config/server');
 require('./app/routes/bloque')(app);
 
 app.listen(app.get('port'),() => {
-	console.log("El servidor está en: ", app.get('port') + '/');
+	console.log("El servidor está en: ", app.get('port'));
 });
 
 // const { Blockchain, Transaccion} = require('./blockchain');
