@@ -2,7 +2,7 @@
     "name": "criptomoneda",
     "version": "1.0.0",
     "description": "Project",
-    "main": "index.html",
+    "main": "index.js",
     "engines": {
       "node": "v12.16.x"
     },
