@@ -1,9 +1,7 @@
 const app = require('./config/server');
-var server = require('http').Server(app);
-const io = require('spcket.io')(server);
 require('./app/routes/bloque')(app);
 
-app.listen(app.get('port/'),() => {
+app.listen(app.get('port'),() => {
 	console.log("El servidor está en: ", app.get('port'));
 });
 
