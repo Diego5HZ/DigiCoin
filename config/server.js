@@ -1,9 +1,6 @@
 //Trayendo los Modulos
 const express = require('express');
 const path = require('path');
-
-app.use(express.static('public'));
-
 const bodyParser = require('body-parser');//Este sirve para facilitar la 
                                           //comuniacion entre el navegador y el servidor 
 

@@ -1,7 +1,7 @@
 const app = require('./config/server');
 require('./app/routes/bloque')(app);
 
-app.listen(app.get('port'),function() {
+app.listen(app.get('port'),() => {
 	console.log("El servidor está en: ", app.get('port'));
 });
 
@@ -18,7 +18,7 @@ app.listen(app.get('port'),function() {
 // digiCoin.agregarTransaccion(tx1);
 // digiCoin.minarTransaccionesPendientes(cartera);
 
-// const tx2 = new Transaccion(cartera,'llavePublicaDeA	lguien',20);
+// const tx2 = new Transaccion(cartera,'llavePublicaDeAlguien',20);
 // tx2.signTransaccion(miLlave);
 // digiCoin.agregarTransaccion(tx2);
 

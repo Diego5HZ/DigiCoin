@@ -134,7 +134,7 @@ html{
 		width: 20%;
 		text-align: center;
 		border-bottom: 1px solid #fff;
-		color:rgb(252, 101, 101);
+		color:#fff;
 		font-family: "Oswald",sans-serif;
 		text-transform: uppercase;
 	}
@@ -159,31 +159,5 @@ html{
 		margin-bottom: 1rem;
 	}
 	main div.crearTransferencia form input[type="number"]{
-		margin-bottom: 0rem;
-	}
-
-
-
-	main div.configuracion form{
-		margin:0px auto;
-	}
-	main div.configuracion form{
-		display: flex;
-		flex-flow: column;
-		padding: 2rem 0rem;
-	}
-	main div.configuracion label {
-		font-family: "Roboto",sans-serif;
-		margin-bottom: 1rem;
-	}
-	main div.configuracion form input{
-		padding: 0.5rem;
-		border-radius: 0.3rem;
-		border:1px solid rgb(206, 86, 86);
-	}
-	main div.configuracion label,input {
-		margin-bottom: 1rem;
-	}
-	main div.configuracion form input[type="number"]{
 		margin-bottom: 0rem;
 	}

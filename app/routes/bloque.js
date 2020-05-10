@@ -47,9 +47,9 @@ module.exports = app => {
     });
     app.post('/crear_transferencia/add',(req,res) => {
         const{ origen,destino,cantidad} = req.body;
+        cantidadDeDinero -= cantidad;
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
-            cantidadDeDinero -= cantidad;
             let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
@@ -82,7 +82,6 @@ module.exports = app => {
         });
         
     });
-
     app.get('/configuracion',(req,res) => {
         res.render('configuracion',{
             dificultad: digiCoin.retornarDificultad(),
