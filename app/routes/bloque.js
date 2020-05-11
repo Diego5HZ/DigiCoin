@@ -7,22 +7,26 @@ const miLlave = ec.keyFromPrivate('772dcf672d039840baa294b8aaa5f6e6f288bcd5da1c2
 const cartera = miLlave.getPublic('hex');
 let digiCoin = new Blockchain();
 let cantidadDeDinero = digiCoin.getDinero(cartera);
-let condicion10 = 0;
 let bloqueNoMinados;
 let transDeBloquesNoMinados;
 module.exports = app => {
     const con = conexion();
     app.get('/',(req,res) => {
-        con.query('SELECT * FROM bloque',(err,resultado) =>{
-            con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
-                bloqueNoMinados = resultado;
-                 for(let i = 0;i<bloqueNoMinados.length;i++){
-                    let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
-                    con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
-                        transDeBloquesNoMinados = resultado2;
-                    });
-                 }
-            });
+        con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
+            if(bloqueNoMinados.length > 0){
+            bloqueNoMinados = resultado;
+             for(let i = 0;i<bloqueNoMinados.length;i++){
+                let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
+                    transDeBloquesNoMinados = resultado2;
+                });
+             }
+         } else {
+            transDeBloquesNoMinados = null;
+            bloqueNoMinados = null;
+         }
+        });
+
             res.render('index',{
                 bloqueF:bloqueNoMinados,
                 trans: transDeBloquesNoMinados,
@@ -47,6 +51,7 @@ module.exports = app => {
     });
     app.post('/crear_transferencia/add',(req,res) => {
         const{ origen,destino,cantidad} = req.body;
+        //modificacion del dinero
         cantidadDeDinero -= cantidad;
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
@@ -54,8 +59,6 @@ module.exports = app => {
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
             if(resultArray[0].idTrans % 10 == 0){
-                condicion10++;
-                condicion10 = true;
                 let indexBloque = digiCoin.getUltimoBloque().index + 1,
                     fechaBloque = Date.now(),
                     transBloque = [],
