@@ -52,6 +52,7 @@
 						<li class="borderRL">Fecha</li>
 						<li class="">Minero</li>
 					</ul>
+					<%if(bloque != null){%>
 					<% for(let i = 0;i< bloque.length;i++){ %>
 					<ul>	
 						<li class=""><%=bloque[i].id%></li>
@@ -59,6 +60,7 @@
 						<li class="borderRL"><%=bloque[i].fechaCreacion.toDateString()%></li>
 						<li class=""><%=bloque[i].id_Minero%></li>
 					</ul>
+					<%}%>
 					<%}%>
 				</div>
 			</div>
@@ -69,6 +71,7 @@
 				<hr>	
 				<div class="divTH">
 					<form action="/minar" method="post">
+					<%if(bloqueF != null) {%>
 					<%for(let i = 0;i< bloqueF.length;i++) {%>
 					<input type="text" name="idBloque" class="hidden" value='<%=i+1%>'>
 					<div class="bloquePendiente">
@@ -97,6 +100,7 @@
 					<input type="submit" class="button" value="Minar">
 					</form>
 					</div>
+					<%}%>
 					<%}%>
 				</div>
 			</div>
