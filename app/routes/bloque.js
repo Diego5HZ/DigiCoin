@@ -7,6 +7,7 @@ const miLlave = ec.keyFromPrivate('772dcf672d039840baa294b8aaa5f6e6f288bcd5da1c2
 const cartera = miLlave.getPublic('hex');
 let digiCoin = new Blockchain();
 let cantidadDeDinero = digiCoin.getDinero(cartera);
+let condicion10 = 0;
 let bloqueNoMinados;
 let transDeBloquesNoMinados;
 module.exports = app => {
@@ -22,7 +23,6 @@ module.exports = app => {
                     });
                  }
             });
-
             res.render('index',{
                 bloqueF:bloqueNoMinados,
                 trans: transDeBloquesNoMinados,
@@ -54,6 +54,8 @@ module.exports = app => {
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
             if(resultArray[0].idTrans % 10 == 0){
+                condicion10++;
+                condicion10 = true;
                 let indexBloque = digiCoin.getUltimoBloque().index + 1,
                     fechaBloque = Date.now(),
                     transBloque = [],

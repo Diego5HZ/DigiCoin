@@ -33,7 +33,7 @@ CREATE TABLE `bloque` (
   `prevhash` varchar(100) DEFAULT NULL,
   `acthash` varchar(100) DEFAULT NULL,
   `fechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `id_Minero` int(11) NOT NULL
+  `id_Minero` int(11) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -43,7 +43,6 @@ CREATE TABLE `bloque` (
 INSERT INTO `bloque` (`id`, `prevhash`, `acthash`, `fechaCreacion`, `id_Minero`) VALUES
 (1, '0', '8217ae6814f53b3ebe55da1a173b8db1f2bed30527156208fd87893c50f25838', '2020-05-04 00:28:55', 1),
 (2, '8217ae6814f53b3ebe55da1a173b8db1f2bed30527156208fd87893c50f25838', 'b93a8edde537a8ec64f23565a9e52aec82b55697e2f6446ed81e5cdeb0e36d6b', '2020-05-03 23:37:41', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -103,7 +102,7 @@ ALTER TABLE `transacciones`
 -- AUTO_INCREMENT de la tabla `bloque`
 --
 ALTER TABLE `bloque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `transacciones`
