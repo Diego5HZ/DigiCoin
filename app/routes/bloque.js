@@ -12,20 +12,21 @@ let transDeBloquesNoMinados;
 module.exports = app => {
     const con = conexion();
     app.get('/',(req,res) => {
-        con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
-            if(bloqueNoMinados.length > 0){
-            bloqueNoMinados = resultado;
-             for(let i = 0;i<bloqueNoMinados.length;i++){
-                let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
-                con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
-                    transDeBloquesNoMinados = resultado2;
-                });
+        con.query('SELECT * FROM bloque',(err,resultado) =>{
+            con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
+                if(bloqueNoMinados.length > 0){
+                bloqueNoMinados = resultado;
+                 for(let i = 0;i<bloqueNoMinados.length;i++){
+                    let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                    con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
+                        transDeBloquesNoMinados = resultado2;
+                    });
+                 }
+             } else {
+                transDeBloquesNoMinados = null;
+                bloqueNoMinados = null;
              }
-         } else {
-            transDeBloquesNoMinados = null;
-            bloqueNoMinados = null;
-         }
-        });
+            });
 
             res.render('index',{
                 bloqueF:bloqueNoMinados,
