@@ -54,26 +54,7 @@ module.exports = app => {
         const{ origen,destino,cantidad} = req.body;
         //modificacion del dinero
         cantidadDeDinero -= cantidad;
-        con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
-            console.log(resultado);
-            let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
-            console.log(resultArray[0].idTrans);
-            const id = Math.ceil((resultArray[0].idTrans + 1)/10);
-            if(resultArray[0].idTrans % 10 == 0){
-                let indexBloque = digiCoin.getUltimoBloque().index + 1,
-                    fechaBloque = Date.now(),
-                    transBloque = [],
-                    previoHashBloque = digiCoin.getUltimoBloque().calcularHash();
-                    id_Minero = 1;
-                const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
-                let acthash = nbloque.calcularHash();
-                con.query('INSERT INTO bloque SET?',{
-                    prevhash:previoHashBloque,
-                    acthash,
-                    id_Minero
-                });
-            }
-            const tx1 = new Transaccion(cartera,destino,cantidad);
+        const tx1 = new Transaccion(cartera,destino,cantidad);
             tx1.signTransaccion(miLlave);
             digiCoin.agregarTransaccion(tx1);
             con.query('INSERT INTO transacciones SET?',{
@@ -81,11 +62,39 @@ module.exports = app => {
             destino,
             cantidad,
             id
-        },(err,result)=>{
-            console.log(err);
-            res.redirect('/crear_transferencia');
-        });
-        });
+            });
+        // con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
+        //     console.log(resultado);
+        //     let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
+        //     console.log(resultArray[0].idTrans);
+        //     const id = Math.ceil((resultArray[0].idTrans + 1)/10);
+        //     if(resultArray[0].idTrans % 10 == 0){
+        //         let indexBloque = digiCoin.getUltimoBloque().index + 1,
+        //             fechaBloque = Date.now(),
+        //             transBloque = [],
+        //             previoHashBloque = digiCoin.getUltimoBloque().calcularHash();
+        //             id_Minero = 1;
+        //         const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
+        //         let acthash = nbloque.calcularHash();
+        //         con.query('INSERT INTO bloque SET?',{
+        //             prevhash:previoHashBloque,
+        //             acthash,
+        //             id_Minero
+        //         });
+        //     }
+        //     const tx1 = new Transaccion(cartera,destino,cantidad);
+        //     tx1.signTransaccion(miLlave);
+        //     digiCoin.agregarTransaccion(tx1);
+        //     con.query('INSERT INTO transacciones SET?',{
+        //     origen:cartera,
+        //     destino,
+        //     cantidad,
+        //     id
+        // },(err,result)=>{
+        //     console.log(err);
+        //     res.redirect('/crear_transferencia');
+        // });
+        // });
         
     });
     app.get('/configuracion',(req,res) => {
@@ -100,7 +109,3 @@ module.exports = app => {
         res.redirect('/configuracion')
     });
 }
-
-//console.log("Balance de minero es: " + digiCoin.getDinero(cartera));
-
-//console.log("Es la cadena valida???: " + digiCoin.CadenaEsValida());
