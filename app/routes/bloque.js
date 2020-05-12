@@ -63,6 +63,7 @@ module.exports = app => {
             cantidad,
             id
             });
+            res.redirect('/crear_transferencia');
         // con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
         //     console.log(resultado);
         //     let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
