@@ -10,7 +10,7 @@ let cantidadDeDinero = digiCoin.getDinero(cartera);
 let bloqueNoMinados;
 let transDeBloquesNoMinados;
 let varN;
-let ind;
+let ind = 0;
 module.exports = app => {
     const con = conexion();
     app.get('/',(req,res) => {
@@ -76,13 +76,14 @@ module.exports = app => {
                     acthash,
                     id_Minero
                 });
-                ind++;
             }
             varN++;
             const tx1 = new Transaccion(cartera,destino,cantidad);
             tx1.signTransaccion(miLlave);
             digiCoin.agregarTransaccion(tx1);
+            ind++;
             con.query('INSERT INTO transacciones SET?',{
+            ind,
             origen:cartera,
             destino,
             cantidad,
