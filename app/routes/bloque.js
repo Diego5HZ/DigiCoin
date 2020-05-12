@@ -9,29 +9,30 @@ let digiCoin = new Blockchain();
 let cantidadDeDinero = digiCoin.getDinero(cartera);
 let bloqueNoMinados;
 let transDeBloquesNoMinados;
-let varN;
-let ind = 0;
 module.exports = app => {
     const con = conexion();
     app.get('/',(req,res) => {
         con.query('SELECT * FROM bloque',(err,resultado) =>{
-            con.query('SELECT * FROM bloque',(err,resultado) =>{
-                con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
-                    bloqueNoMinados = resultado;
-                     for(let i = 0;i<bloqueNoMinados.length;i++){
-                        let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
-                        con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
-                            transDeBloquesNoMinados = resultado2;
-                        });
-                     }
-                });
-    
-                res.render('index',{
-                    bloqueF:bloqueNoMinados,
-                    trans: transDeBloquesNoMinados,
-                    bloque: resultado,
-                    dinero: cantidadDeDinero
-                });
+            con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
+                if(bloqueNoMinados != undefined){
+                bloqueNoMinados = resultado;
+                 for(let i = 0;i<bloqueNoMinados.length;i++){
+                    let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                    con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
+                        transDeBloquesNoMinados = resultado2;
+                    });
+                 }
+             } else {
+                transDeBloquesNoMinados = null;
+                bloqueNoMinados = null;
+             }
+            });
+
+            res.render('index',{
+                bloqueF:bloqueNoMinados,
+                trans: transDeBloquesNoMinados,
+                bloque: resultado,
+                dinero: cantidadDeDinero
             });
         });
 
@@ -53,13 +54,13 @@ module.exports = app => {
         const{ origen,destino,cantidad} = req.body;
         //modificacion del dinero
         cantidadDeDinero -= cantidad;
+        const tx1 = new Transaccion(cartera,destino,cantidad);
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
             let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
-            if(varN == 10){
-                varN = 0;
+            if(resultArray[0].idTrans % 10 == 0){
                 let indexBloque = digiCoin.getUltimoBloque().index + 1,
                     fechaBloque = Date.now(),
                     transBloque = [],
@@ -73,7 +74,6 @@ module.exports = app => {
                     id_Minero
                 });
             }
-            varN++;
             const tx1 = new Transaccion(cartera,destino,cantidad);
             tx1.signTransaccion(miLlave);
             digiCoin.agregarTransaccion(tx1);
