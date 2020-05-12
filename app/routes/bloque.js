@@ -71,7 +71,6 @@ module.exports = app => {
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
                 con.query('INSERT INTO bloque SET?',{
-                    ind,
                     prevhash:previoHashBloque,
                     acthash,
                     id_Minero
@@ -81,9 +80,7 @@ module.exports = app => {
             const tx1 = new Transaccion(cartera,destino,cantidad);
             tx1.signTransaccion(miLlave);
             digiCoin.agregarTransaccion(tx1);
-            ind++;
             con.query('INSERT INTO transacciones SET?',{
-            ind,
             origen:cartera,
             destino,
             cantidad,
