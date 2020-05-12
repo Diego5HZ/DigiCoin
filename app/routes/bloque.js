@@ -54,16 +54,13 @@ module.exports = app => {
         const{ origen,destino,cantidad} = req.body;
         //modificacion del dinero
         cantidadDeDinero -= cantidad;
-        const tx1 = new Transaccion(cartera,destino,cantidad);
-            tx1.signTransaccion(miLlave);
-            digiCoin.agregarTransaccion(tx1);
-            con.query('INSERT INTO transacciones SET?',{
-            origen:cartera,
-            destino,
-            cantidad,
-            id
-            });
-            res.redirect('/crear_transferencia');
+
+        con.query('INSERT INTO transacciones SET?',{
+        origen:cartera,
+        destino,
+        cantidad,
+        id
+        });
         // con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
         //     console.log(resultado);
         //     let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
