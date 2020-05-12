@@ -1,4 +1,3 @@
-
 const conexion = require('../../config/dbConnection');
 const { Bloque, Blockchain, Transaccion} = require('./../../blockchain');
 const EC = require('elliptic').ec;
@@ -14,13 +13,19 @@ module.exports = app => {
     app.get('/',(req,res) => {
         con.query('SELECT * FROM bloque',(err,resultado) =>{
             con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
+                //if(bloqueNoMinados != undefined){
                 bloqueNoMinados = resultado;
                  for(let i = 0;i<bloqueNoMinados.length;i++){
                     let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                    console.log("J : " + j );
                     con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
                         transDeBloquesNoMinados = resultado2;
                     });
                  }
+             //} else {
+                //transDeBloquesNoMinados = null;
+                //bloqueNoMinados = null;
+             //}
             });
 
             res.render('index',{
@@ -34,7 +39,9 @@ module.exports = app => {
     });
     app.post('/minar',(req,res)=> {
         const{ idBloque } = req.body;
+        console.log("idBloque"  + idBloque);
         digiCoin.minarTransaccionesPendientes(cartera);
+        
         con.query(`UPDATE bloque SET id_Minero = 1 WHERE id = ${idBloque}`,(err,resultado)=>{
             res.redirect("/");
         });
@@ -46,14 +53,15 @@ module.exports = app => {
         });
     });
     app.post('/crear_transferencia/add',(req,res) => {
+        
         const{ origen,destino,cantidad} = req.body;
-        //modificacion del dinero
         cantidadDeDinero -= cantidad;
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
             let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
             console.log(resultArray[0].idTrans);
             const id = Math.ceil((resultArray[0].idTrans + 1)/10);
+            console.log("RESULT MAX : " + resultArray[0].idTrans);
             if(resultArray[0].idTrans % 10 == 0){
                 let indexBloque = digiCoin.getUltimoBloque().index + 1,
                     fechaBloque = Date.now(),
@@ -62,7 +70,10 @@ module.exports = app => {
                     id_Minero = 0;
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
+                let indexx = (resultArray[0].idTrans / 10) + 1;
+                console.log(indexx);
                 con.query('INSERT INTO bloque SET?',{
+                    id:indexx,
                     prevhash:previoHashBloque,
                     acthash,
                     id_Minero
@@ -71,7 +82,9 @@ module.exports = app => {
             const tx1 = new Transaccion(cartera,destino,cantidad);
             tx1.signTransaccion(miLlave);
             digiCoin.agregarTransaccion(tx1);
+            let idTransAux = resultArray[0].idTrans + 1;
             con.query('INSERT INTO transacciones SET?',{
+            idTrans: idTransAux,
             origen:cartera,
             destino,
             cantidad,
