@@ -71,11 +71,11 @@
 				<hr>	
 				<div class="divTH">
 					<form action="/minar" method="post">
-					<%if(bloqueF != null) {%>
+					<%if(bloqueF.length != null){%>
 					<%for(let i = 0;i< bloqueF.length;i++) {%>
-					<input type="text" name="idBloque" class="hidden" value='<%=i+1%>'>
+					<input type="text" name="idBloque" class="hidden" value='<%=bloqueF[i].id%>'>
 					<div class="bloquePendiente">
-						<h3>Bloque <%=i+1%></h3>
+						<h3>Bloque <%=bloqueF[i].id%></h3>
 						<ul>	
 						<li class="">#</li>
 						<li class="borderRL small2">Origen</li>
@@ -84,7 +84,7 @@
 						<li class="borderRL">Fecha</li>
 						<li class="">Aprobado</li>
 					</ul>
-					<%for(let j = 0;j<= 10;j++){%>
+					<%for(let j = 0;j< 10;j++){%>
 					<%if(trans[j] !== undefined){%>
 					<ul>	
 						<li class=""><%=trans[j].idTrans%></li>
@@ -94,13 +94,14 @@
 						<li class="borderRL">4/21/2020</li>
 						<li class="">SI</li>
 					</ul>
-					<%}%>
-					<%}%>
-					<%if(bloqueF.length == 10){%>
+					<%if(trans[j].idTrans % 10 == 0){%>
 					<input type="submit" class="button" value="Minar">
+					<%}%>
+					<%}%>
 					<%}%>
 					</form>
 					</div>
+					
 					<%}%>
 					<%}%>
 				</div>
