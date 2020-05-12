@@ -17,12 +17,10 @@ module.exports = app => {
                 if(bloqueNoMinados != undefined){
                 bloqueNoMinados = resultado;
                  for(let i = 0;i<bloqueNoMinados.length;i++){
-                    let j = 1;
-                    // let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                    let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
                     con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
                         transDeBloquesNoMinados = resultado2;
                     });
-                    j++;
                  }
              } else {
                 transDeBloquesNoMinados = null;
@@ -66,7 +64,7 @@ module.exports = app => {
                     fechaBloque = Date.now(),
                     transBloque = [],
                     previoHashBloque = digiCoin.getUltimoBloque().calcularHash();
-                    id_Minero = 0;
+                    id_Minero = 1;
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
                 con.query('INSERT INTO bloque SET?',{
