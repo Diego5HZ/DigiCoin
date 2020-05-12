@@ -59,7 +59,7 @@ module.exports = app => {
         origen:cartera,
         destino,
         cantidad,
-        id = 1  
+        id  
         });
         // con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
         //     console.log(resultado);
