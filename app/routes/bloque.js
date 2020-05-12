@@ -14,7 +14,6 @@ module.exports = app => {
     app.get('/',(req,res) => {
         con.query('SELECT * FROM bloque',(err,resultado) =>{
             con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
-                if(bloqueNoMinados != undefined){
                 bloqueNoMinados = resultado;
                  for(let i = 0;i<bloqueNoMinados.length;i++){
                     let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
@@ -22,10 +21,6 @@ module.exports = app => {
                         transDeBloquesNoMinados = resultado2;
                     });
                  }
-             } else {
-                transDeBloquesNoMinados = null;
-                bloqueNoMinados = null;
-             }
             });
 
             res.render('index',{
@@ -54,7 +49,6 @@ module.exports = app => {
         const{ origen,destino,cantidad} = req.body;
         //modificacion del dinero
         cantidadDeDinero -= cantidad;
-        const tx1 = new Transaccion(cartera,destino,cantidad);
         con.query('SELECT MAX(idTrans) AS idTrans FROM transacciones',(err,resultado) =>{
             console.log(resultado);
             let resultArray = Object.values(JSON.parse(JSON.stringify(resultado)));
@@ -65,7 +59,7 @@ module.exports = app => {
                     fechaBloque = Date.now(),
                     transBloque = [],
                     previoHashBloque = digiCoin.getUltimoBloque().calcularHash();
-                    id_Minero = 1;
+                    id_Minero = 0;
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
                 con.query('INSERT INTO bloque SET?',{
@@ -101,3 +95,7 @@ module.exports = app => {
         res.redirect('/configuracion')
     });
 }
+
+//console.log("Balance de minero es: " + digiCoin.getDinero(cartera));
+
+//console.log("Es la cadena valida???: " + digiCoin.CadenaEsValida());
