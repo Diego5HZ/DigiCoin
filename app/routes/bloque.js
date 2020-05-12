@@ -71,7 +71,7 @@ module.exports = app => {
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
                 con.query('INSERT INTO bloque SET?',{
-                    id = ind,
+                    ind,
                     prevhash:previoHashBloque,
                     acthash,
                     id_Minero
