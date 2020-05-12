@@ -17,10 +17,12 @@ module.exports = app => {
                 if(bloqueNoMinados != undefined){
                 bloqueNoMinados = resultado;
                  for(let i = 0;i<bloqueNoMinados.length;i++){
-                    let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
+                    let j = 1;
+                    // let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
                     con.query(`SELECT * FROM transacciones WHERE id = ${j}`,(err2,resultado2)=>{
                         transDeBloquesNoMinados = resultado2;
                     });
+                    j++;
                  }
              } else {
                 transDeBloquesNoMinados = null;
