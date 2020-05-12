@@ -10,6 +10,7 @@ let cantidadDeDinero = digiCoin.getDinero(cartera);
 let bloqueNoMinados;
 let transDeBloquesNoMinados;
 let varN;
+let ind;
 module.exports = app => {
     const con = conexion();
     app.get('/',(req,res) => {
@@ -70,10 +71,12 @@ module.exports = app => {
                 const nbloque = new Bloque(indexBloque,fechaBloque,transBloque,previoHashBloque);
                 let acthash = nbloque.calcularHash();
                 con.query('INSERT INTO bloque SET?',{
+                    id = ind,
                     prevhash:previoHashBloque,
                     acthash,
                     id_Minero
                 });
+                ind++;
             }
             varN++;
             const tx1 = new Transaccion(cartera,destino,cantidad);
