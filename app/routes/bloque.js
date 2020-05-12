@@ -16,7 +16,6 @@ module.exports = app => {
     app.get('/',(req,res) => {
         con.query('SELECT * FROM bloque',(err,resultado) =>{
             con.query('SELECT * FROM bloque WHERE id_Minero = 0',(err1,resultado) =>{
-                if(bloqueNoMinados != undefined){
                 bloqueNoMinados = resultado;
                  for(let i = 0;i<bloqueNoMinados.length;i++){
                     let j = (Object.values(JSON.parse(JSON.stringify(bloqueNoMinados))))[i].id;
@@ -24,10 +23,6 @@ module.exports = app => {
                         transDeBloquesNoMinados = resultado2;
                     });
                  }
-             } else {
-                transDeBloquesNoMinados = null;
-                bloqueNoMinados = null;
-             }
             });
 
             res.render('index',{
